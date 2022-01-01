@@ -9,6 +9,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/utils.dart';
 import 'package:insta_reels/services/download_controller.dart';
 import 'package:insta_reels/services/reel_download.dart';
+import 'package:insta_reels/tp1.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -88,6 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
               height: size.height,
               child: Stack(
                 children: [
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      'Yash\'s Appzz',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                   Container(
                     width: size.width,
                     height: 80,
@@ -104,6 +112,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: size.height * .28,
+                    right: size.width * .15,
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Colors.yellow, Colors.red])),
                     ),
                   ),
                   Positioned(
@@ -208,50 +230,65 @@ class _MyHomePageState extends State<MyHomePage> {
                                       false,
                                     ),
                                     SizedBox(height: size.height * .05),
-                                    InkWell(
-                                      highlightColor: Colors.transparent,
-                                      splashColor: Colors.transparent,
-                                      onHighlightChanged: (value) {
-                                        setState(() {
-                                          isTapped = value;
-                                        });
-                                      },
-                                      onTap: () async {
-                                        print("pressed");
-                                        print(urlController.text);
-                                        downloadController
-                                            .downloadReal(urlController.text);
-                                      },
-                                      child: AnimatedContainer(
-                                        duration: Duration(milliseconds: 300),
-                                        curve: Curves.fastLinearToSlowEaseIn,
-                                        height: isTapped ? 55 : 60,
-                                        width: isTapped ? 160 : 180,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(.9),
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.8),
-                                              blurRadius: 30,
-                                              offset: Offset(3, 7),
+                                    Obx(
+                                      () => downloadController.processing.value
+                                          ? Container(
+                                              width: 50,
+                                              height: 50,
+                                              color: Colors.transparent,
+                                              child: LoadingWidget(),
+                                            )
+                                          : InkWell(
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              splashColor: Colors.transparent,
+                                              onHighlightChanged: (value) {
+                                                setState(() {
+                                                  isTapped = value;
+                                                });
+                                              },
+                                              onTap: () async {
+                                                print("pressed");
+                                                print(urlController.text);
+                                                downloadController.downloadReal(
+                                                    urlController.text);
+                                                urlController.clear();
+                                              },
+                                              child: AnimatedContainer(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                                curve: Curves
+                                                    .fastLinearToSlowEaseIn,
+                                                height: isTapped ? 55 : 60,
+                                                width: isTapped ? 160 : 180,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white
+                                                      .withOpacity(.9),
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black
+                                                          .withOpacity(0.8),
+                                                      blurRadius: 30,
+                                                      offset: Offset(3, 7),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Download',
+                                                    style: TextStyle(
+                                                      color: Colors.black
+                                                          .withOpacity(0.7),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 19,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            'Download',
-                                            style: TextStyle(
-                                              color:
-                                                  Colors.black.withOpacity(0.7),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 19,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
                                     ),
                                   ],
                                 ),
@@ -263,20 +300,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: size.height * .3,
                         )
                       ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: size.height * .28,
-                    right: size.width * .15,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [Colors.yellow, Colors.red])),
                     ),
                   ),
                 ],

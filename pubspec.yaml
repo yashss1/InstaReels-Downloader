@@ -15,6 +15,7 @@ dependencies:
   get: ^4.3.8
   get_storage: ^2.0.3
   image_gallery_saver: ^1.7.1
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
